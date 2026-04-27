@@ -1,5 +1,6 @@
 import { useContext } from "react";
 import { InstallAppsContext } from "../../context/InstallAppsContext";
+import { FaDownload, FaStar } from "react-icons/fa";
 
 const InstallApps = () => {
   const { installedApps, setInstalledApps } = useContext(InstallAppsContext);
@@ -14,7 +15,7 @@ const InstallApps = () => {
 
   return (
     <section className="max-w-6xl mx-auto px-4 py-12">
-      {installedApps.length === 0 ? 
+      {installedApps.length === 0 ? (
         <div className="text-center py-20">
           <h2 className="text-3xl md:text-5xl font-bold text-slate-800">
             No Installed Apps Found!
@@ -23,7 +24,7 @@ const InstallApps = () => {
             Install apps to see them here.
           </p>
         </div>
-       : (
+      ) : (
         <>
           <div className="text-center mb-10">
             <h2 className="text-3xl md:text-5xl font-bold text-slate-800">
@@ -40,6 +41,7 @@ const InstallApps = () => {
                 key={app.id}
                 className="flex flex-col sm:flex-row items-center justify-between gap-6 p-5 rounded-2xl bg-white border border-gray-100 shadow-sm"
               >
+                {/* Left side */}
                 <div className="flex flex-col sm:flex-row items-center gap-5 text-center sm:text-left">
                   <img
                     src={app.image}
@@ -47,11 +49,30 @@ const InstallApps = () => {
                     className="h-24 w-24 object-contain rounded-xl bg-gray-50 p-2"
                   />
 
-                  <h3 className="text-xl md:text-2xl font-semibold text-slate-800">
-                    {app.title}
-                  </h3>
+                  <div>
+                    {/* Title */}
+                    <h3 className="text-xl md:text-2xl font-semibold text-slate-800">
+                      {app.title}
+                    </h3>
+
+                    {/* Stats */}
+                    <div className="flex items-center gap-6 mt-2 text-sm text-gray-500 justify-center sm:justify-start">
+                      
+                      <span className="flex items-center gap-1">
+                        <FaDownload className="text-green-500" />
+                        {app.downloads}
+                      </span>
+
+                      <span className="flex items-center gap-1">
+                        <FaStar className="text-orange-400" />
+                        {app.ratingAvg}
+                      </span>
+
+                    </div>
+                  </div>
                 </div>
 
+                {/* Button */}
                 <button
                   onClick={() => handleUninstall(app)}
                   className="px-6 py-3 rounded-xl bg-red-500 hover:bg-red-600 text-white font-medium transition shadow-md active:scale-95"
