@@ -1,3 +1,4 @@
+import { useContext } from "react";
 import { useParams } from "react-router";
 import {
   BarChart,
@@ -10,13 +11,19 @@ import {
 } from "recharts";
 import { FaDownload, FaStar, FaCommentAlt } from "react-icons/fa";
 import { GridLoader } from "react-spinners";
+import { toast } from "react-toastify";
+
 import useApps from "../../hooks/useApps";
+import { InstallAppsContext } from "../../context/InstallAppsContext";
 
 const AppDetails = () => {
   const { id } = useParams();
   const { apps, loading } = useApps();
+  const { installedApps, setInstalledApps } = useContext(InstallAppsContext);
 
-  const expectedApp = apps.find((app) => String(app.id) === id);
+  const expectedApp = apps?.find(
+    (app) => String(app.id) === id
+  );
 
   if (loading) {
     return (
@@ -33,6 +40,20 @@ const AppDetails = () => {
       </div>
     );
   }
+
+  const isInstalled = installedApps?.some(
+    (app) => app.id === expectedApp.id
+  );
+
+  const handleInstallApp = () => {
+    if (isInstalled) {
+      toast.info("App already installed!");
+      return;
+    }
+
+    setInstalledApps([...installedApps, expectedApp]);
+    toast.success(`${expectedApp.title} installed successfully!`);
+  };
 
   const chartData = [...expectedApp.ratings].reverse();
 
@@ -69,27 +90,41 @@ const AppDetails = () => {
                 <p className="text-xs text-gray-400 flex items-center gap-1">
                   <FaDownload /> Downloads
                 </p>
-                <h3 className="text-lg font-bold">{expectedApp.downloads}</h3>
+                <h3 className="text-lg font-bold">
+                  {expectedApp.downloads}
+                </h3>
               </div>
 
               <div>
                 <p className="text-xs text-gray-400 flex items-center gap-1">
                   <FaStar className="text-orange-400" /> Rating
                 </p>
-                <h3 className="text-lg font-bold">{expectedApp.ratingAvg}</h3>
+                <h3 className="text-lg font-bold">
+                  {expectedApp.ratingAvg}
+                </h3>
               </div>
 
               <div>
                 <p className="text-xs text-gray-400 flex items-center gap-1">
                   <FaCommentAlt className="text-purple-400" /> Reviews
                 </p>
-                <h3 className="text-lg font-bold">{expectedApp.reviews}</h3>
+                <h3 className="text-lg font-bold">
+                  {expectedApp.reviews}
+                </h3>
               </div>
             </div>
 
             {/* Button */}
-            <button className="mt-6 bg-green-500 hover:bg-green-600 text-white font-semibold px-8 py-3 rounded-xl shadow-md active:scale-95 transition">
-              Install Now ({expectedApp.size} MB)
+            <button
+              onClick={handleInstallApp}
+              className={`mt-6 text-white font-semibold px-8 py-3 rounded-xl shadow-md transition active:scale-95 ${isInstalled
+                ? "bg-gray-500 hover:bg-gray-600 cursor-pointer"
+                : "bg-green-500 hover:bg-green-600 cursor-pointer"
+                }`}
+            >
+              {isInstalled
+                ? "Installed App"
+                : `Install Now (${expectedApp.size} MB)`}
             </button>
           </div>
         </div>
@@ -124,6 +159,7 @@ const AppDetails = () => {
             <h2 className="text-lg font-bold mb-6 border-b pb-2">
               Description
             </h2>
+
             <p className="text-gray-500 leading-relaxed">
               {expectedApp.description}
             </p>
