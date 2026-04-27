@@ -1,6 +1,7 @@
 import { useContext } from "react";
 import { InstallAppsContext } from "../../context/InstallAppsContext";
 import { FaDownload, FaStar } from "react-icons/fa";
+import { toast } from "react-toastify";
 
 const InstallApps = () => {
   const { installedApps, setInstalledApps } = useContext(InstallAppsContext);
@@ -11,6 +12,7 @@ const InstallApps = () => {
     );
 
     setInstalledApps(remainingApps);
+    toast.warning(`${targetApp.title} has been uninstalled!`);
   };
 
   return (
@@ -57,7 +59,7 @@ const InstallApps = () => {
 
                     {/* Stats */}
                     <div className="flex items-center gap-6 mt-2 text-sm text-gray-500 justify-center sm:justify-start">
-                      
+
                       <span className="flex items-center gap-1">
                         <FaDownload className="text-green-500" />
                         {app.downloads}
