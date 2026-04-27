@@ -5,6 +5,7 @@ import Apps from "../pages/apps/Apps";
 import InstallApps from "../pages/installApps/InstallApps";
 import NotFoundPage from "../pages/NotFoundPage/NotFoundPage";
 import AppDetails from "../pages/appDetails/AppDetails";
+import Dashboard from "../pages/dashboard/Dashboard";
 
 
 export const router = createBrowserRouter([
@@ -25,12 +26,16 @@ export const router = createBrowserRouter([
         path: "/apps/:id",
         element: <AppDetails />,
       },
-      
+
       {
         path: "/installedApps",
         element: <InstallApps />,
       },
-     
+      {
+        path: "/dashboard",
+        element: <Dashboard />,
+      },
+
     ],
     errorElement: <NotFoundPage />,
   },

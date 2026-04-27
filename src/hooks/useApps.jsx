@@ -12,7 +12,7 @@ const useApps = () => {
       setTimeout(() => {
         setApps(data);
         setLoading(false);
-      }, 1800);
+      }, 1500);
     };
     fetchData();
   }, []);
