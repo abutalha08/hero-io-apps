@@ -22,7 +22,7 @@ A modern app store dashboard built with React that simulates real-world app inst
 
 ## 🌐 Live Demo
 
-👉 **[View Live Project](https://hero-io-apps.netlify.app/)**
+👉 **[View Live Project](https://hero-io-apps-project-ph.netlify.app/)**
 
 ---
 
